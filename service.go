@@ -55,7 +55,7 @@ func handleMessage(conn net.Conn, message string) {
 		key, _ := bufio.NewReader(conn).ReadString('\n')
 		key = normalizeInput(key)
 		value := load(key)
-		conn.Write([]byte(fmt.Sprintf("Value: %s \n", value)))
+		conn.Write([]byte(fmt.Sprintf("Value: %s\n", value)))
 	} else if message == "store"{
 		//key
 		conn.Write([]byte(fmt.Sprintf("Enter key: \n")))
@@ -72,7 +72,7 @@ func handleMessage(conn net.Conn, message string) {
 		conn.Write([]byte(fmt.Sprintf("Enter pattern: \n")))
 		pattern, _ := bufio.NewReader(conn).ReadString('\n')
 		result := search(normalizeInput(pattern))
-		conn.Write([]byte(fmt.Sprintf("Found: %s \n", result)))
+		conn.Write([]byte(fmt.Sprintf("Found: %s", result)))
 	} else {
 		conn.Write([]byte("Unkown command: "+message+"\n"))
 	}
