@@ -35,79 +35,81 @@ func main() {
 	
 	if COMMAND == "check" {
 		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
-			log.Printf("Error 13: %s\n", message)
+			fmt.Printf("No Enter your message: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "load\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Enter key: \n" {
-			log.Printf("Error 5: %s\n", message)
+			fmt.Printf("No Enter key: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "1\n")
 
 		if  message, _ := READER.ReadString('\n'); message != "Value: 1\n" {
-			log.Printf("Error 11: %s\n", message)
+			fmt.Printf("No Value: %s\n", message)
 			os.Exit(102)
 		}
 
 		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
-			log.Printf("Error 10: %s\n", message)
+			fmt.Printf("No Enter your message: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "store\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Enter key: \n" {
-			log.Printf("Error 3: %s\n", message)
+			fmt.Printf("No Enter key: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "1\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Enter value: \n" {
-			log.Printf("Error 0: %s\n", message)
+			fmt.Printf("No Enter value: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "1\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Stored\n" {
-			log.Printf("Error 1: %s\n", message)
+			fmt.Printf("No Stored: %s\n", message)
 			os.Exit(102)
 		}
 
 		if message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
-			log.Printf("Error 14: %s\n", message)
+			fmt.Printf("No Enter your message: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "search\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Enter pattern: \n" {
-			log.Printf("Error 2: %s\n", message)
+			fmt.Printf("No Enter pattern: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "1\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Found: 111, 11, 1\n" {
-			log.Printf("Error 18: %s\n", message)
+			fmt.Printf("No Found: %s\n", message)
 			os.Exit(102)
 		}
 
 		if message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
-			log.Printf("Error 20: %s\n", message)
+			fmt.Printf("No Enter your message: %s\n", message)
 			os.Exit(102)
 		}
 		fmt.Fprintf(conn, "WRONG\n")
 
 		if message, _ := READER.ReadString('\n'); message != "Unkown command: wrong\n" {
-			log.Printf("Error 20: %s\n", message)
+			fmt.Printf("No Unkown command:: %s\n", message)
 			os.Exit(102)
 		}
 		log.Printf("%s: ok", COMMAND)
+	} else if COMMAND == "put" { 
+		fmt.Println("put")
+	} else if COMMAND == "get" { 
+		fmt.Println("get")
 	} else {
 		fmt.Println("Usage: command host")
 		os.Exit(1)
 	}
-	//comments
-	//get
-	//put
+
 	os.Exit(0)
 }
