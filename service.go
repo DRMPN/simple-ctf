@@ -54,8 +54,11 @@ func handleMessage(conn net.Conn, message string) {
 		conn.Write([]byte(fmt.Sprintf("Enter key: \n")))
 		key, _ := bufio.NewReader(conn).ReadString('\n')
 		key = normalizeInput(key)
-		value := load(key)
-		conn.Write([]byte(fmt.Sprintf("Value: %s\n", value)))
+		if value := load(key); value != nil {
+			conn.Write([]byte(fmt.Sprintf("Value: %s\n", value)))
+		} else {
+			conn.Write([]byte(fmt.Sprintf("No value\n")))
+		}
 	} else if message == "store"{
 		//key
 		conn.Write([]byte(fmt.Sprintf("Enter key: \n")))
@@ -87,6 +90,7 @@ func load(key string) []byte {
 	file, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", DIRNAME, key))
 	if err != nil {
 		log.Printf("Error: %s", err)
+		return nil
 	}
 	log.Printf("Loaded: %s", file)
 	return file
