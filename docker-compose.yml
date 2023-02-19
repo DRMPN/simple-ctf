@@ -1,0 +1,8 @@
+version : "1.0"
+services:
+  simple-ctf:
+    build: .
+    volumes:
+      - ./container:/home/hometask/container
+    ports:
+      - "7777:7777"
