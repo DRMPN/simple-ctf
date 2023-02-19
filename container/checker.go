@@ -22,6 +22,7 @@ func main() {
 	conn, err := net.Dial("tcp", HOST)
 	if err!=nil {
 		fmt.Printf("Cannot connect to specified host: %s\n", HOST)
+		fmt.Printf("ERROR: %s\n", err)
 		os.Exit(1)
 	}
 	defer conn.Close()

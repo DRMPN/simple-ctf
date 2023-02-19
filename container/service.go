@@ -44,7 +44,11 @@ func handleConnection(conn net.Conn) {
 		conn.Write([]byte("Enter your message: \n"))
 		message, err := bufio.NewReader(conn).ReadString('\n')
 		if err != nil {
-			log.Printf("Error: ", err)
+			if strings.Contains(fmt.Sprint(err), "EOF") {
+				log.Println("User exit")
+			} else {
+				log.Printf("Error: ", err)
+			}
 			break
 		}
 		handleMessage(conn, message)
