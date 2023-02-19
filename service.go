@@ -19,7 +19,12 @@ func main() {
 		os.Mkdir(DIRNAME, os.ModePerm)
 	}
 
-	ln, _ := net.Listen("tcp", PORT)
+	ln, err := net.Listen("tcp", PORT)
+	if err != nil {
+		log.Printf("ERROR: %s\n", err)
+		fmt.Printf("Port %s already in use\n", PORT)
+		os.Exit(1)
+	}
 	defer ln.Close()
 
 	log.Printf("Service started on port %s", PORT)
