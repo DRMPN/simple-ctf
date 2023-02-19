@@ -12,7 +12,7 @@ import (
 func main() {
 
 	if len(os.Args) < 3 {
-		fmt.Println("Usage: checker.go [HOST] ([CHECK], [PUT KEY VALUE]), [GET KEY VALUE])")
+		fmt.Println("Usage: checker [HOST] ([CHECK], [PUT KEY VALUE]), [GET KEY VALUE])")
 		os.Exit(1)
 	}
 
@@ -27,30 +27,12 @@ func main() {
 	defer conn.Close()
 
 	var READER = bufio.NewReader(conn)
-	defer READER.cl
 	
 	if COMMAND == "check" {
 
 		if len(os.Args) != 3 {
 			fmt.Println("Usage: checker.go [HOST] [CHECK]")
 			os.Exit(1)
-		}
-
-		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
-			fmt.Printf("No Enter your message: %s\n", message)
-			os.Exit(102)
-		}
-		fmt.Fprintf(conn, "load\n")
-
-		if message, _ := READER.ReadString('\n'); message != "Enter key: \n" {
-			fmt.Printf("No Enter key: %s\n", message)
-			os.Exit(102)
-		}
-		fmt.Fprintf(conn, "1\n")
-
-		if  message, _ := READER.ReadString('\n'); message != "Value: 1\n" {
-			fmt.Printf("No Value: %s\n", message)
-			os.Exit(102)
 		}
 
 		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
@@ -75,6 +57,23 @@ func main() {
 			fmt.Printf("No Stored: %s\n", message)
 			os.Exit(102)
 		}
+		
+		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
+			fmt.Printf("No Enter your message: %s\n", message)
+			os.Exit(102)
+		}
+		fmt.Fprintf(conn, "load\n")
+
+		if message, _ := READER.ReadString('\n'); message != "Enter key: \n" {
+			fmt.Printf("No Enter key`: %s\n", message)
+			os.Exit(102)
+		}
+		fmt.Fprintf(conn, "1\n")
+
+		if  message, _ := READER.ReadString('\n'); message != "Value: 1\n" {
+			fmt.Printf("No Value: %s\n", message)
+			os.Exit(102)
+		}
 
 		if message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
 			fmt.Printf("No Enter your message: %s\n", message)
@@ -88,7 +87,7 @@ func main() {
 		}
 		fmt.Fprintf(conn, "1\n")
 
-		if message, _ := READER.ReadString('\n'); message != "Found: 111, 11, 1\n" {
+		if message, _ := READER.ReadString('\n'); message != "Found: 1\n" {
 			fmt.Printf("No Found: %s\n", message)
 			os.Exit(102)
 		}
