@@ -11,13 +11,8 @@ import (
 
 func main() {
 
-	// usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]
-	// 		[-m minttl] [-O length] [-P proxy_username] [-p source_port]
-	// 		[-q seconds] [-s source] [-T keyword] [-V rtable] [-W recvlimit] [-w timeout]
-	// 		[-X proxy_protocol] [-x proxy_address[:port]]           [destination] [port]
-
 	if len(os.Args) < 3 {
-		fmt.Println("Usage: checker.go host command key value")
+		fmt.Println("Usage: checker.go [HOST] ([CHECK], [PUT KEY VALUE]), [GET KEY VALUE])")
 		os.Exit(1)
 	}
 
@@ -32,10 +27,14 @@ func main() {
 	defer conn.Close()
 
 	var READER = bufio.NewReader(conn)
+	defer READER.cl
 	
 	if COMMAND == "check" {
 
-		// TODO: argv
+		if len(os.Args) != 3 {
+			fmt.Println("Usage: checker.go [HOST] [CHECK]")
+			os.Exit(1)
+		}
 
 		if  message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
 			fmt.Printf("No Enter your message: %s\n", message)
@@ -106,21 +105,45 @@ func main() {
 		}
 		log.Printf("%s: ok", COMMAND)
 	} else if COMMAND == "put" { 
-		fmt.Println("put")
-		// go run checker.go localhost:7777 put 1 1 
-		key := os.Args[3]
-		value := os.Args[4]
-		log.Printf("%s: %s - %s", COMMAND, key, value)
-		// Enter your message: 
-		// store
-		// Enter key: 
-		// 1
-		// Enter value: 
-		// 1
-		// Stored
+
+		if len(os.Args) != 5 {
+			fmt.Println("Usage: checker.go [HOST] [PUT] [KEY] [VALUE]")
+			os.Exit(1)
+		}
+
+		key := os.Args[3]+"\n"
+		value := os.Args[4]+"\n"
+
+		if message, _ := READER.ReadString('\n'); message != "Enter your message: \n" {
+			fmt.Printf("No Enter your message: %s\n", message)
+			os.Exit(102)
+		}
+		fmt.Fprintf(conn, "store\n")
+
+		if message, _ := READER.ReadString('\n'); message != "Enter key: \n" {
+			fmt.Printf("No Enter key: %s\n", message)
+			os.Exit(102)
+		}
+		fmt.Fprintf(conn, key)
+
+		if message, _ := READER.ReadString('\n'); message != "Enter value: \n" {
+			fmt.Printf("No Enter key: %s\n", message)
+			os.Exit(102)
+		}
+		fmt.Fprintf(conn, value)
+
+		if message, _ := READER.ReadString('\n'); message != "Stored\n" {
+			fmt.Printf("No store: %s\n", message)
+			os.Exit(102)
+		} 
+
+		log.Printf("%s: ok", COMMAND)
 	} else if COMMAND == "get" { 
 		
-		// TODO: argv
+		if len(os.Args) != 4 {
+			fmt.Println("Usage: checker.go [HOST] [GET] [VALUE]")
+			os.Exit(1)
+		}
 
 		key := os.Args[3]+"\n"
 		log.Printf("%s: %s", COMMAND, key)
@@ -152,6 +175,5 @@ func main() {
 		fmt.Println("Usage: command host")
 		os.Exit(1)
 	}
-
-	os.Exit(0)
+	os.Exit(101)
 }
